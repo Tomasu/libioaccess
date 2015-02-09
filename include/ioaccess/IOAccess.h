@@ -54,6 +54,12 @@ namespace IOAccess
 		Timespec atime;   /* time of last access */
 		Timespec mtime;   /* time of last modification */
 		Timespec ctime;   /* time of last status change */
+		
+		bool isDir() const { return mode & ModeDir; }
+		bool isFile() const { return mode & ModeRegular; }
+		bool isReadable() const { return mode & ModeOwnerRead || mode & ModeGroupRead || mode & ModeOtherRead; }
+		bool isWritable() const { return mode & ModeOwnerWrite || mode & ModeGroupWrite || mode & ModeOtherWrite; }
+		bool isExecutable() const { return mode & ModeOwnerExecute || mode & ModeGroupExecute || mode & ModeOtherExecute; }
 	};
 	
 	struct FileInterface
@@ -76,7 +82,7 @@ namespace IOAccess
 	struct DirectoryInterface
 	{
 		virtual bool open(const std::string &path) = 0;
-		virtual std::string read() = 0;
+		virtual std::string read(bool fullpath = false) = 0;
 		virtual void close() = 0;
 		virtual int32_t getErrno() = 0;
 	};
@@ -88,6 +94,7 @@ namespace IOAccess
 		virtual File *openFile(const std::string &path, const std::string &mode) = 0;
 		virtual Directory *openDir(const std::string &path) = 0;
 		virtual bool stat(const std::string &path, StatInfo *si) = 0;
+		virtual bool exists(const std::string &path) = 0;
 		virtual int32_t getErrno() = 0;
 	};
 
@@ -98,7 +105,7 @@ namespace IOAccess
 	File *OpenFile(const std::string &path, const std::string &mode);
 	Directory *OpenDirectory(const std::string &path);
 	bool Stat(const std::string &path, StatInfo *si);
-	
+	bool Exists(const std::string &path);
 }
 
 #endif /* IOACCESS_H_GUARD */

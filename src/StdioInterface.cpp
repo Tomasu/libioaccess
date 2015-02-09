@@ -31,7 +31,7 @@ namespace IOAccess
 			delete fh;
 			return nullptr;
 		}
-		
+
 		return fh;
 	}
 	
@@ -58,6 +58,18 @@ namespace IOAccess
 		
 		si->mtime.sec = sbuff.st_mtim.tv_sec;
 		si->mtime.nsec = sbuff.st_mtim.tv_nsec;
+		
+		return true;
+	}
+	
+	bool StdioInterface::exists(const std::string &path)
+	{
+		struct stat sbuff;
+		int32_t ret = ::stat(path.c_str(), &sbuff);
+		
+		// if any error occurs, the file isn't accessible, so it might as well not exist.
+		if(checkError(ret != 0))
+			return false;
 		
 		return true;
 	}
@@ -168,10 +180,15 @@ namespace IOAccess
 	bool StdioDirectory::open(const std::string &path)
 	{
 		dir_ = opendir(path.c_str());
-		return checkError(dir_ == nullptr);
+		if(checkError(dir_ == nullptr))
+			return false;
+		
+		path_ = path;
+
+		return true;
 	}
 	
-	std::string StdioDirectory::read()
+	std::string StdioDirectory::read(bool fullpath)
 	{
 		std::string entname;
 		
@@ -188,6 +205,9 @@ namespace IOAccess
 			break;
 			
 		} while(1);
+		
+		if(fullpath)
+			return path_ + std::string("/") + entname;
 		
 		return entname;
 	}
