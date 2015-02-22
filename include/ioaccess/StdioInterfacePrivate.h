@@ -33,15 +33,16 @@ namespace IOAccess
 	class StdioDirectory : public Directory
 	{
 		public:
-			StdioDirectory() : dir_(nullptr), errno_(0) {}
+			StdioDirectory() : path_(), dir_(nullptr), errno_(0) {}
 			virtual ~StdioDirectory();
 			
 			bool open(const std::string &path);
-			std::string read();
+			std::string read(bool fp = false);
 			void close();
 			int32_t getErrno();
 			
 		private:
+			std::string path_;
 			DIR *dir_;
 			int32_t errno_;
 			
