@@ -37,7 +37,7 @@ namespace IOAccess
 			virtual ~StdioDirectory();
 			
 			bool open(const std::string &path);
-			std::string read(bool fp = false);
+			 bool read(std::string* ent, bool fullpath);
 			void close();
 			int32_t getErrno();
 			

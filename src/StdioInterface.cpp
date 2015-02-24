@@ -187,10 +187,11 @@ namespace IOAccess
 
 		return true;
 	}
-	
-	std::string StdioDirectory::read(bool fullpath)
+
+	bool StdioDirectory::read(std::string *ent, bool fullpath)
 	{
 		std::string entname;
+		std::string path;
 		
 		do {
 			struct dirent *dent = readdir(dir_);
@@ -207,9 +208,11 @@ namespace IOAccess
 		} while(1);
 		
 		if(fullpath)
-			return path_ + std::string("/") + entname;
+			ent->assign(path_ + std::string("/") + entname);
+		else
+			ent->assign(entname);
 		
-		return entname;
+		return true;
 	}
 	
 	void StdioDirectory::close()

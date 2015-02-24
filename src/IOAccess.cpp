@@ -1,6 +1,7 @@
 #include "ioaccess/IOAccess.h"
 #include "ioaccess/StdioInterface.h"
 
+#include "errno.h"
 namespace IOAccess {
 
 static bool isInitialized = false;
@@ -61,5 +62,14 @@ bool Stat(const std::string &path, StatInfo *si)
 	
 	return default_fs_interface->stat(path, si);
 }
+
+int32_t Errno()
+{
+	if(!isInitialized || !default_fs_interface)
+		return EINVAL;
+	
+	return default_fs_interface->getErrno();
+}
+
 
 }

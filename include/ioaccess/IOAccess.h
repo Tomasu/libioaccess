@@ -77,17 +77,25 @@ namespace IOAccess
 		virtual int32_t getErrno() = 0;
 	};
 	
-	class File : virtual FileInterface { };
+	class File : public FileInterface
+	{ 
+		public:
+			virtual ~File() { }
+	};
 	
 	struct DirectoryInterface
 	{
 		virtual bool open(const std::string &path) = 0;
-		virtual std::string read(bool fullpath = false) = 0;
+		virtual bool read(std::string *path, bool fullpath = false) = 0;
 		virtual void close() = 0;
 		virtual int32_t getErrno() = 0;
 	};
 	
-	class Directory : virtual DirectoryInterface { };
+	class Directory : public DirectoryInterface 
+	{ 
+		public:
+			virtual ~Directory() { }
+	};
 	
 	struct FileSystemInterface
 	{
@@ -106,6 +114,7 @@ namespace IOAccess
 	Directory *OpenDirectory(const std::string &path);
 	bool Stat(const std::string &path, StatInfo *si);
 	bool Exists(const std::string &path);
+	int32_t Errno();
 }
 
 #endif /* IOACCESS_H_GUARD */
