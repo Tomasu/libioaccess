@@ -8,9 +8,9 @@ get_filename_component(LIBIOACCESS_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 set(LIBIOACCESS_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
  
 # Our library dependencies (contains definitions for IMPORTED targets)
-if(NOT TARGET ioaccess AND NOT LIBMCMAP_BINARY_DIR)
+if(NOT TARGET ioaccess AND NOT LIBIOACCESS_BINARY_DIR)
 	include("${LIBIOACCESS_CMAKE_DIR}/LibIOAccessTargets.cmake")
 endif()
  
 # These are IMPORTED targets created by LibIOAccessTargets.cmake
-set(LIBMCMAP_LIBRARIES ioaccess)
+set(LIBIOACCESS_LIBRARIES ioaccess)

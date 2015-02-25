@@ -93,7 +93,9 @@ namespace IOAccess
 	
 	StdioFile::~StdioFile()
 	{
-		close();
+		if(fh_)
+			close();
+		
 		errno_ = 0;
 	}
 	
@@ -173,7 +175,9 @@ namespace IOAccess
 	
 	StdioDirectory::~StdioDirectory()
 	{
-		close();
+		if(dir_)
+			close();
+		
 		errno_ = 0;
 	}
 	
@@ -203,16 +207,19 @@ namespace IOAccess
 				continue;
 			
 			entname = dent->d_name;
-			break;
+			
+			printf("StdioDirectory::read(fp:%i): %s\n", fullpath, entname.c_str());
+
+			if(fullpath)
+				ent->assign(path_ + std::string("/") + entname);
+			else
+				ent->assign(entname);
+		
+			return true;
 			
 		} while(1);
 		
-		if(fullpath)
-			ent->assign(path_ + std::string("/") + entname);
-		else
-			ent->assign(entname);
-		
-		return true;
+		return false;
 	}
 	
 	void StdioDirectory::close()

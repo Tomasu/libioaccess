@@ -66,8 +66,8 @@ namespace IOAccess
 	{
 		virtual bool open(const std::string &path, const std::string &mode) = 0;
 		
-		virtual size_t read(void *ptr, size_t len);
-		virtual size_t write(void *ptr, size_t len);
+		virtual size_t read(void *ptr, size_t len) = 0;
+		virtual size_t write(void *ptr, size_t len) = 0;
 		
 		virtual void close() = 0;
 		

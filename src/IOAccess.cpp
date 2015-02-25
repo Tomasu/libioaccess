@@ -71,5 +71,12 @@ int32_t Errno()
 	return default_fs_interface->getErrno();
 }
 
+bool Exists(const std::string &path)
+{
+	if(!isInitialized || !default_fs_interface)
+		return false;
+	
+	return default_fs_interface->exists(path);
+}
 
 }

@@ -51,7 +51,7 @@ set(IOACCESS_SOURCES
 	src/StdioInterface.cpp
 )
 
-add_library(ioaccess SHARED ${IOACCESS_SOURCES} ${IOACCESS_HEADERS})
+add_library(ioaccess SHARED ${IOACCESS_SOURCES})
 
 set_target_properties(ioaccess PROPERTIES PUBLIC_HEADER "${IOACCESS_PUBLIC_HEADERS}")
 
