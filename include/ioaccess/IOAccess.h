@@ -127,7 +127,7 @@ namespace IOAccess
 		virtual int32_t getErrno() = 0;
 	};
 
-	void SetDefaultInteface(FileSystemInterface *fsi);
+	void SetDefaultInterface(FileSystemInterface *fsi);
 
 	bool Initialize(FileSystemInterface *default_fsi = nullptr);
 
